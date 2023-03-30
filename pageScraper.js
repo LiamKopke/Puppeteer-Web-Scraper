@@ -76,6 +76,19 @@ const scraperObject = {
 				if (visitedUrls[currentUrl]) continue;
 				visitedUrls[currentUrl] = currentUrl;
 
+				if (
+					!currentUrl.includes(".zoetis.ca/") ||
+					currentUrl.includes("learn") ||
+					currentUrl.includes("content") ||
+					currentUrl.includes("global-assets") ||
+					currentUrl.includes(".pdf") ||
+					currentUrl.includes(".zip") ||
+					currentUrl.includes(".mp4") ||
+					currentUrl.includes(".jpg")
+				) {
+					continue;
+				}
+
 				console.log("Visiting link: " + currentUrl);
 				const urls = await scrapePage(currentUrl);
 				console.log("Link visited");
@@ -116,18 +129,6 @@ const scraperObject = {
 				// Extract the links from the data
 				links = links
 					.map((a) => a.href.split("?")[0].split("#")[0])
-					.filter((link) => {
-						return (
-							(link.includes("www.zoetis.ca/") ||
-								link.includes("www2.zoetis.ca")) &&
-							!link.includes("content") &&
-							!link.includes("global-assets") &&
-							!link.includes(".pdf") &&
-							!link.includes(".zip") &&
-							!link.includes(".mp4") &&
-							!link.includes(".jpg")
-						);
-					})
 					.filter((value, index, array) => array.indexOf(value) === index);
 				return links;
 			});
